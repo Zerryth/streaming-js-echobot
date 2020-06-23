@@ -13,7 +13,7 @@
 
 </details>
 
-![Local Echo Bot Test](./media/local-echo-bot-test.png)
+![Local Echo Bot Test](../media/local-echo-bot-test.png)
 
 ___
 
@@ -39,18 +39,15 @@ Due to some issues with az cli and zip deployment right now, **going to create s
 <details>
     <summary>Create App Registration, App Service, Bot Channels Registration. Prepare code for deployment. Deploy code to Azure.</summary>
 
-* Create Azure Application Registration: `az ad app create --display-name "ash-streaming-echo-js4" --password "AtLeastSixteenCharacters_0" --available-to-other-tenants`
-
-appid: 8c31f069-c21a-4a53-a7a7-7889af08b837
-secret: AtLeastSixteenCharacters_0
+* Create Azure Application Registration: `az ad app create --display-name "ash-streaming-echo-js4" --password "..." --available-to-other-tenants`
 
 * Create App Service & Bot Channels Registration - with existing resource group and existing app service plan
-    * `az deployment group create --resource-group "ash-streaming-echo-js4" --template-file "deploymentTemplates/template-with-preexisting-rg.json" --parameters appId="8c31f069-c21a-4a53-a7a7-7889af08b837" appSecret="AtLeastSixteenCharacters_0" botId="ash-streaming-echo-js4" newWebAppName="ash-streaming-echo-js4" newAppServicePlanName="ash-streaming-echo-js4" appServicePlanLocation="westus2" --name "ash-streaming-echo-js4"`
+    * `az deployment group create --resource-group "ash-streaming-echo-js4" --template-file "deploymentTemplates/template-with-preexisting-rg.json" --parameters appId="8c31f069-xxxx-xxxx-xxxx-xxxxxxxxb837" appSecret="..." botId="ash-streaming-echo-js4" newWebAppName="ash-streaming-echo-js4" newAppServicePlanName="ash-streaming-echo-js4" appServicePlanLocation="westus2" --name "ash-streaming-echo-js4"`
 
 * Prepare code for deployment
     * Create `web.config`: `az bot prepare-deploy --code-dir "." --lang Javascript`
     * Zip code directory manually: 
-        * ![zipping code](./media/zipping-code.png)
+        * ![zipping code](../media/zipping-code.png)
 
 * Deploy code to Azure: `az webapp deployment source config-zip --resource-group "ash-streaming-echo-js4" --name "ash-streaming-echo-js4" --src "codes.zip"`
 
@@ -59,17 +56,17 @@ secret: AtLeastSixteenCharacters_0
 
 </details>
 
-![zip deploy to Azure](./media/zip-deploy-to-azure.png)
+![zip deploy to Azure](../media/zip-deploy-to-azure.png)
 
 Verify Echo Bot deployed to Azure in Test in WebChat
 
-![verify deployed echo-bot](./media/verify-echo-deployed.png)
+![verify deployed echo-bot](../media/verify-echo-deployed.png)
 
 ___
 
 ### *Follow Steps in [Configure Node.js bot for extension](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-directline-extension-node-bot?view=azure-bot-service-4.0)*
 
-#### **Update Bot to use DL ASE**
+#### *Update Bot to use DL ASE*
 
 Making changes locally, then pushing changes to Azure, to have better version control. Originally I was just editing everything directly in web editor in Azure, but got lost with how many tweaks I was making.
 
@@ -77,17 +74,17 @@ Making changes locally, then pushing changes to Azure, to have better version co
     <summary>Add useNamedPipe to index.js</summary>
 
 * Add `BotFrameworkAdapter.useNamedPipe` method in `index.js`. This is after `/api/messages` and before `upgrade` listeners.
-    * ![useNamedPipe](./media/useNamedPipe-in-index.png)
+    * ![useNamedPipe](../media/useNamedPipe-in-index.png)
 
 * <details>
     <summary>Change echo message, add credentials to .env, and deploy changes to Azure.</summary>
 
     * Appended "useNamePipe" to echo message that bot sends
-    * Add appId and password to .env (`8c31f069-c21a-4a53-a7a7-7889af08b837`, `AtLeastSixteenCharacters_0`)
+    * Add appId and password to .env
     * Deploy changes (`az webapp deployment source config-zip --resource-group "ash-streaming-echo-js4" --name "ash-streaming-echo-js4" --src "codes.zip"`)
 
     * Verify changes deployed to Azure and the `useNamedPipe` piece in bot didn't break anything by testing in WebChat
-![useNamedPipe test in WebChat](./media/useNamePipe-piece-test-in-webchat.png)
+![useNamedPipe test in WebChat](../media/useNamePipe-piece-test-in-webchat.png)
 
 </details>
 
@@ -111,18 +108,109 @@ Making changes locally, then pushing changes to Azure, to have better version co
         </configuration>    
     ```
     * After deploying the change in `web.config` to Azure, the bot now does not work in Test in WebChat. This is expected, as we still have not enabled DL ASE Azure App Service.
-        * ![bot does not work in Test in WebChat post-web.config change](./media/bot-does-not-work-in-wc-after-editing-webconfig.png)
+        * ![bot does not work in Test in WebChat post-web.config change](../media/bot-does-not-work-in-wc-after-editing-webconfig.png)
 
 </details>
 
 #### *Enable DL ASE in Azure*
-* Grab DL ASE key in Bot Channels Registrat > Channels
-    * ![grab DL ASE Key](./media/grab-dlase-key.png)
-    * `7GqowRiHJ9M.0rNAt0riXG4n3tYBQKeUlvY-1n2BNMZXwqZduNXQxpc`
-* Update App Service configuration and enable WebSockets
-    * ![Update App Service Configuration](./media/update-app-service-config.png)
-* Test DL ASE and the Bot are Initialized
-    * By going to `https://ash-streaming-echo-js4.azurewebsites.net/.bot/`
-    * ![json results](./media/dlase-ib-ob-false.png)
-    * DL ASE not initializing. `ib`/`ob` are `false` when we want it to be `true`
+
+<details>
+    <summary>Grab DL ASE key in Bot Channels Registrat > Channels</summary>
+
+    ![grab DL ASE Key](../media/grab-dlase-key.png)
+
+</details>
+
+<details>
     
+    <summary>Update App Service configuration and enable WebSockets</summary>
+
+    * ![Update App Service Configuration](../media/update-app-service-config.png)
+
+</details>
+
+<details>
+    <summary>Test DL ASE and the Bot are Initialized</summary>
+    * Go to `https://ash-streaming-echo-js4.azurewebsites.net/.bot/`: ![json results](../media/dlase-ib-ob-false.png)
+        * **DL ASE JSON does return**, but `ib`/`ob` are `false` when we want it to be `true`
+
+</details>
+
+**Bot does not respond in Test in WebChat still**, even with DL ASE enabled in both bot and App Service configuration
+
+
+#### *Reverting to Default `web.config`*
+* Reverting to the `web.config` that gets created by default, we see bot responds in WebChat again:
+    * <details>
+        <summary>Default web.config</summary>
+        
+        ```xml
+            <?xml version="1.0" encoding="utf-8"?>
+            <!--
+                 This configuration file is required if iisnode is used to run node processes behind
+                 IIS or IIS Express.  For more information, visit:
+            
+                 https://github.com/tjanczuk/iisnode/blob/master/src/samples/configuration/web.config
+            -->
+            
+            <configuration>
+              <system.webServer>
+                <!-- Visit http://blogs.msdn.com/b/windowsazure/archive/2013/11/14/introduction-to-websockets-on-windows-azure-web-sites.aspx for more information on WebSocket support -->
+                <webSocket enabled="false" />
+                <handlers>
+                  <!-- Indicates that the server.js file is a node.js site to be handled by the iisnode module -->
+                  <add name="iisnode" path="index.js" verb="*" modules="iisnode"/>
+                </handlers>
+                <rewrite>
+                  <rules>
+                    <!-- Do not interfere with requests for node-inspector debugging -->
+                    <rule name="NodeInspector" patternSyntax="ECMAScript" stopProcessing="true">
+                      <match url="^index.js\/debug[\/]?" />
+                    </rule>
+            
+                    <!-- First we consider whether the incoming URL matches a physical file in the /public folder -->
+                    <rule name="StaticContent">
+                      <action type="Rewrite" url="public{REQUEST_URI}"/>
+                    </rule>
+            
+                    <!-- All other URLs are mapped to the node.js site entry point -->
+                    <rule name="DynamicContent">
+                      <conditions>
+                        <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="True"/>
+                      </conditions>
+                      <action type="Rewrite" url="index.js"/>
+                    </rule>
+                  </rules>
+                </rewrite>
+                
+                <!-- 'bin' directory has no special meaning in node.js and apps can be placed in it -->
+                <security>
+                  <requestFiltering>
+                    <hiddenSegments>
+                      <remove segment="bin"/>
+                    </hiddenSegments>
+                  </requestFiltering>
+                </security>
+            
+                <!-- Make sure error responses are left untouched -->
+                <httpErrors existingResponse="PassThrough" />
+            
+                <!--
+                  You can control how Node is hosted within IIS using the following options:
+                    * watchedFiles: semi-colon separated list of files that will be watched for changes to restart the server
+                    * node_env: will be propagated to node as NODE_ENV environment variable
+                    * debuggingEnabled - controls whether the built-in debugger is enabled
+            
+                  See https://github.com/tjanczuk/iisnode/blob/master/src/samples/configuration/web.config for a full list of options
+                -->
+                <!--<iisnode watchedFiles="web.config;*.js"/>-->
+              </system.webServer>
+            </configuration>
+        
+        ```
+
+    </details>
+
+    * ![reverted web.config test in WebChat](../media/reverted-to-default-webconfig-test-in-wc.png)
+* In contrast, navigating to `/.bot/`, you no longer get the DL ASE JSON response:
+    ![/.bot/ does not exist](../media/dot-bot-doesnt-exist.png)
