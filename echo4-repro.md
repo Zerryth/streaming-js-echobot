@@ -115,31 +115,30 @@ Making changes locally, then pushing changes to Azure, to have better version co
 #### *Enable DL ASE in Azure*
 
 <details>
-    <summary>Grab DL ASE key in Bot Channels Registrat > Channels</summary>
+    <summary>Grab DL ASE key in Bot Channels Registration</summary>
 
-    ![grab DL ASE Key](../media/grab-dlase-key.png)
-
+![grab DL ASE Key](../media/grab-dlase-key.png)
 </details>
 
 <details>
-    
     <summary>Update App Service configuration and enable WebSockets</summary>
 
-    * ![Update App Service Configuration](../media/update-app-service-config.png)
-
+![Update App Service Configuration](../media/update-app-service-config.png)
 </details>
 
 <details>
     <summary>Test DL ASE and the Bot are Initialized</summary>
-    * Go to `https://ash-streaming-echo-js4.azurewebsites.net/.bot/`: ![json results](../media/dlase-ib-ob-false.png)
-        * **DL ASE JSON does return**, but `ib`/`ob` are `false` when we want it to be `true`
+    
+Go to `https://ash-streaming-echo-js4.azurewebsites.net/.bot/`: ![json results](../media/dlase-ib-ob-false.png)
 
 </details>
 
-**Bot does not respond in Test in WebChat still**, even with DL ASE enabled in both bot and App Service configuration
+* **DL ASE JSON does return**, but `ib`/`ob` are `false` when we want them to be `true`
+* **Bot does not respond in Test in WebChat still**, even with DL ASE enabled in both bot and App Service configuration
 
+___
 
-#### *Reverting to Default `web.config`*
+### *Reverting to Default `web.config`*
 * Reverting to the `web.config` that gets created by default, we see bot responds in WebChat again:
     * <details>
         <summary>Default web.config</summary>
