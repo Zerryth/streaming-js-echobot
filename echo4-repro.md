@@ -13,7 +13,7 @@
 
 </details>
 
-![Local Echo Bot Test](../media/local-echo-bot-test.png)
+![Local Echo Bot Test](./media/local-echo-bot-test.png)
 
 ___
 
@@ -47,7 +47,7 @@ Due to some issues with az cli and zip deployment right now, **going to create s
 * Prepare code for deployment
     * Create `web.config`: `az bot prepare-deploy --code-dir "." --lang Javascript`
     * Zip code directory manually: 
-        * ![zipping code](../media/zipping-code.png)
+        * ![zipping code](./media/zipping-code.png)
 
 * Deploy code to Azure: `az webapp deployment source config-zip --resource-group "ash-streaming-echo-js4" --name "ash-streaming-echo-js4" --src "codes.zip"`
 
@@ -56,11 +56,11 @@ Due to some issues with az cli and zip deployment right now, **going to create s
 
 </details>
 
-![zip deploy to Azure](../media/zip-deploy-to-azure.png)
+![zip deploy to Azure](./media/zip-deploy-to-azure.png)
 
 Verify Echo Bot deployed to Azure in Test in WebChat
 
-![verify deployed echo-bot](../media/verify-echo-deployed.png)
+![verify deployed echo-bot](./media/verify-echo-deployed.png)
 
 ___
 
@@ -74,7 +74,7 @@ Making changes locally, then pushing changes to Azure, to have better version co
     <summary>Add useNamedPipe to index.js</summary>
 
 * Add `BotFrameworkAdapter.useNamedPipe` method in `index.js`. This is after `/api/messages` and before `upgrade` listeners.
-    * ![useNamedPipe](../media/useNamedPipe-in-index.png)
+    * ![useNamedPipe](./media/useNamedPipe-in-index.png)
 
 * <details>
     <summary>Change echo message, add credentials to .env, and deploy changes to Azure.</summary>
@@ -84,7 +84,7 @@ Making changes locally, then pushing changes to Azure, to have better version co
     * Deploy changes (`az webapp deployment source config-zip --resource-group "ash-streaming-echo-js4" --name "ash-streaming-echo-js4" --src "codes.zip"`)
 
     * Verify changes deployed to Azure and the `useNamedPipe` piece in bot didn't break anything by testing in WebChat
-![useNamedPipe test in WebChat](../media/useNamePipe-piece-test-in-webchat.png)
+![useNamedPipe test in WebChat](./media/useNamePipe-piece-test-in-webchat.png)
 
 </details>
 
@@ -108,7 +108,7 @@ Making changes locally, then pushing changes to Azure, to have better version co
         </configuration>    
     ```
     * After deploying the change in `web.config` to Azure, the bot now does not work in Test in WebChat. This is expected, as we still have not enabled DL ASE Azure App Service.
-        * ![bot does not work in Test in WebChat post-web.config change](../media/bot-does-not-work-in-wc-after-editing-webconfig.png)
+        * ![bot does not work in Test in WebChat post-web.config change](./media/bot-does-not-work-in-wc-after-editing-webconfig.png)
 
 </details>
 
@@ -117,19 +117,19 @@ Making changes locally, then pushing changes to Azure, to have better version co
 <details>
     <summary>Grab DL ASE key in Bot Channels Registration</summary>
 
-![grab DL ASE Key](../media/grab-dlase-key.png)
+![grab DL ASE Key](./media/grab-dlase-key.png)
 </details>
 
 <details>
     <summary>Update App Service configuration and enable WebSockets</summary>
 
-![Update App Service Configuration](../media/update-app-service-config.png)
+![Update App Service Configuration](./media/update-app-service-config.png)
 </details>
 
 <details>
     <summary>Test DL ASE and the Bot are Initialized</summary>
     
-Go to `https://ash-streaming-echo-js4.azurewebsites.net/.bot/`: ![json results](../media/dlase-ib-ob-false.png)
+Go to `https://ash-streaming-echo-js4.azurewebsites.net/.bot/`: ![json results](./media/dlase-ib-ob-false.png)
 
 </details>
 
@@ -210,6 +210,6 @@ ___
 
     </details>
 
-    * ![reverted web.config test in WebChat](../media/reverted-to-default-webconfig-test-in-wc.png)
+    * ![reverted web.config test in WebChat](./media/reverted-to-default-webconfig-test-in-wc.png)
 * In contrast, navigating to `/.bot/`, you no longer get the DL ASE JSON response:
-    ![/.bot/ does not exist](../media/dot-bot-doesnt-exist.png)
+    ![/.bot/ does not exist](./media/dot-bot-doesnt-exist.png)
